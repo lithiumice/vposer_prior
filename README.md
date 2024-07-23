@@ -27,6 +27,9 @@ pip show human_body_prior
 ```bash
 pip install poetry
 poetry install
+
+# or
+poetry add "git+https://github.com/lithiumice/human_body_prior"
 ```
 This will install in editable way.
 
