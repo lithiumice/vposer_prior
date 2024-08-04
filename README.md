@@ -38,9 +38,10 @@ pip install "git+https://github.com/lithiumice/human_body_prior"
 
 2. clone and install
 ```bash
-pip uninstall human_body_prior -y
+# pip uninstall human_body_prior -y
 
 git clone https://github.com/lithiumice/human_body_prior
+
 cd human_body_prior 
 python setup.py install
 
