@@ -130,3 +130,6 @@ dmypy.json
 # data/
 # eval/t2m/checkpoints/
 # exps/
+
+third_party
+debug*

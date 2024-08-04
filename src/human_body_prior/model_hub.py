@@ -11,6 +11,7 @@ def get_vposer_model(device='cuda', vposer_ckpt=None):
     # you should get `vposer_ckpt` from https://huggingface.co/lithiumice/vposer
     # from huggingface_hub import snapshot_download
 
+    #Loading VPoser Body Pose Prior
     vp, _ = load_model(vposer_ckpt, model_code=VPoser,
                               remove_words_in_model_weights='vp_model.',
                               disable_grad=True)
