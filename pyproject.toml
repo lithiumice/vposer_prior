@@ -15,6 +15,18 @@ include = [
 
 [tool.poetry.dependencies]
 python = "^3.7"
+huggingface_hub = "*"
+tqdm = "*"
+numpy = "*"
+dotmap = "*"
+pytorch-lightning = "*"
+PyYAML = "*"
+torch = "*"
+transforms3d = "*"
+pytorch3d = "*"
+omegaconf = "*"
+loguru = "*"
+
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
