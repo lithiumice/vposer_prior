@@ -31,7 +31,7 @@ import trimesh
 #     os.environ['PYOPENGL_PLATFORM'] = 'osmesa'
 # else:
 #     print('In other system, using egl mode for rendering')
-os.environ['PYOPENGL_PLATFORM'] = 'egl'
+# os.environ['PYOPENGL_PLATFORM'] = 'egl'
 
 
 colors = {
@@ -138,23 +138,25 @@ def imagearray2file(img_array, outpath=None, fps=30):
 
     return out_images
 
-def render_smpl_params(bm, body_parms, rot_body=None):
+def render_smpl_params(bm, body_parms, rot_body=None, imw=800, imh = 800, cam_trans=[0, 0, 2.0]):
     '''
     :param bm: pytorch body model with batch_size 1
     :param pose_body: Nx21x3
     :param trans: Nx3
     :param betas: Nxnum_betas
     :return: N x 400 x 400 x 3
+    
+    cam_trans <= [x, y, z]
+        y larger, smpl model goes down
     '''
 
     from human_body_prior.tools.omni_tools import copy2cpu as c2c
     from body_visualizer.mesh.mesh_viewer import MeshViewer
     from body_visualizer.tools.mesh_tools import rotateXYZ
 
-    imw, imh = 800, 800
-
     mv = MeshViewer(width=imw, height=imh, use_offscreen=True)
-    mv.set_cam_trans([0, 0.5, 3.0])
+    # cam_trans = [0, 0.5, 3.0]
+    mv.set_cam_trans(cam_trans)
     faces = c2c(bm.f)
 
     v = c2c(bm(**body_parms).v)

@@ -35,8 +35,8 @@ def pyrenderer(imw=2048, imh=2048):
     except:
         import os
 
-        os.environ["PYOPENGL_PLATFORM"] = "egl"
-        os.environ["EGL_DEVICE_ID"] = os.environ["GPU_DEVICE_ORDINAL"].split(",")[0]
+        # os.environ["PYOPENGL_PLATFORM"] = "egl"
+        # os.environ["EGL_DEVICE_ID"] = os.environ["GPU_DEVICE_ORDINAL"].split(",")[0]
 
         mv = MeshViewer(width=imw, height=imh, use_offscreen=True)
 
