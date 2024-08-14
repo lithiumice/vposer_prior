@@ -24,13 +24,13 @@ from human_body_prior.tools.model_loader import exprdir2model
 vposer, _ = exprdir2model("data/vposer_v02_05")
 ```
 
-## Install
-<!-- ```bash
-conda activate difftraj
-pip install human-body-prior
-``` -->
+### Download SMPL-X model
 
-Install this version:
+    mkdir data/smplx/
+    wget "https://huggingface.co/lithiumice/SMPLit/resolve/main/smpl_smplh_smplx_mano/SMPLX_NEUTRAL.npz" -O data/smplx/SMPLX_NEUTRAL.npz
+
+## Install
+
 1. install without cloning
 ```bash
 pip install "git+https://github.com/lithiumice/human_body_prior"
@@ -38,7 +38,7 @@ pip install "git+https://github.com/lithiumice/human_body_prior"
 
 2. clone and install
 ```bash
-# pip uninstall human_body_prior -y
+pip uninstall human_body_prior -y
 
 git clone https://github.com/lithiumice/human_body_prior
 
@@ -64,3 +64,8 @@ Check you had install these pip package, if you do not mess up your environment:
 + pytorch3d
 
 LICENSE: license from MPI, no free to modify and distribut,
+
+## Issues
+
+- ImportError: cannot import name 'OSMesaCreateContextAttribs' from 'OpenGL.osmesa
+    - pip install --upgrade pyopengl==3.1.4

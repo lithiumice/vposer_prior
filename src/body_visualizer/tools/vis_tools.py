@@ -138,7 +138,8 @@ def imagearray2file(img_array, outpath=None, fps=30):
 
     return out_images
 
-def render_smpl_params(bm, body_parms, rot_body=None, imw=800, imh = 800, cam_trans=[0, 0, 2.0]):
+def render_smpl_params(bm, body_parms, rot_body=None, imw=800, imh = 800, 
+                       cam_trans=[0, 0, 2.0], mesh_color='grey'):
     '''
     :param bm: pytorch body model with batch_size 1
     :param pose_body: Nx21x3
@@ -162,15 +163,19 @@ def render_smpl_params(bm, body_parms, rot_body=None, imw=800, imh = 800, cam_tr
     v = c2c(bm(**body_parms).v)
 
     T, num_verts = v.shape[:-1]
+    
+    print(f"[DEBUG] mesh_color: {mesh_color}")
 
     images = []
     for fIdx in range(T):
         verts = v[fIdx]
         if rot_body is not None:
             verts = rotateXYZ(verts, rot_body)
-        mesh = trimesh.base.Trimesh(verts, faces, vertex_colors=num_verts*colors['grey'])
+        mesh = trimesh.base.Trimesh(verts, faces, vertex_colors=num_verts*colors[mesh_color])
 
         mv.set_meshes([mesh], 'static')
+        
+        # mv.add_grid_floor(size=10, grid_spacing=1)
 
         images.append(mv.render())
 

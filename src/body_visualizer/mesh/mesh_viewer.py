@@ -156,6 +156,30 @@ class MeshViewer(object):
         color_img = self.render()
         cv2.imwrite(fname, color_img)
 
+    # def add_grid_floor(self, size=10, grid_spacing=1, grid_color1=(0.7, 0.7, 0.7), grid_color2=(0.3, 0.3, 0.3)):
+    #     """Add a grid floor to the scene."""
+    #     import ipdb; ipdb.set_trace()
+    #     # Create a grid plane
+    #     grid = trimesh.creation.grid_plane(
+    #         pitch=grid_spacing,
+    #         plane_args=dict(size=size, center=True)
+    #     )
+        
+    #     # Assign different colors to alternating squares
+    #     face_colors = np.empty((grid.faces.shape[0], 3), dtype=np.float32)
+    #     for i in range(grid.faces.shape[0]):
+    #         if (i // grid.faces.shape[0]) % 2 == 0:
+    #             face_colors[i] = grid_color1
+    #         else:
+    #             face_colors[i] = grid_color2
+        
+    #     # Create a new mesh with the face colors
+    #     grid.visual.face_colors = face_colors
+    #     grid_mesh = pyrender.Mesh.from_trimesh(grid)
+        
+    #     # Add the grid to the scene
+    #     self.scene.add(grid_mesh, 'grid-floor')
+        
 if __name__ == '__main__':
     from human_body_prior.tools.omni_tools import copy2cpu as c2c
     from human_body_prior.body_model.body_model import BodyModel
