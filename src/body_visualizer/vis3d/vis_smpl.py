@@ -11,7 +11,7 @@ from vtk import vtkTransform
 
 from .torch_transform import quat_apply, quat_between_two_vec, quaternion_to_angle_axis, angle_axis_to_quaternion
 from .visualizer3d import Visualizer3D
-from .smpl import SMPL, SMPL_MODEL_DIR
+from .smpl import SMPL
 
 
 class SMPLActor():
@@ -120,11 +120,12 @@ class SkeletonActor():
 
 class SMPLVisualizer(Visualizer3D):
 
-    def __init__(self, generator_func=None, device=torch.device('cpu'), show_smpl=True, show_skeleton=False, sample_visible_alltime=False, **kwargs):
+    def __init__(self, generator_func=None, device=torch.device('cpu'), show_smpl=True, smpl_model_dir=None,
+                 show_skeleton=False, sample_visible_alltime=False, **kwargs):
         super().__init__(**kwargs)
         self.show_smpl = show_smpl
         self.show_skeleton = show_skeleton
-        self.smpl = SMPL(SMPL_MODEL_DIR, pose_type='body26fk', create_transl=False).to(device)
+        self.smpl = SMPL(smpl_model_dir, pose_type='body26fk', create_transl=False).to(device)
         faces = self.smpl.faces.copy()       
         self.smpl_faces = faces = np.hstack([np.ones_like(faces[:, [0]]) * 3, faces])
         self.smpl_joint_parents = self.smpl.parents.cpu().numpy()

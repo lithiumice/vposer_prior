@@ -24,10 +24,8 @@ ModelOutput = namedtuple('ModelOutput',
 ModelOutput.__new__.__defaults__ = (None,) * len(ModelOutput._fields)
 
 
-SMPL_MODEL_DIR = "/data/motion/body_models/smpl/"
+
 _DATA = "data/glamr_data"
-
-
 JOINT_REGRESSOR_TRAIN_EXTRA = f'{_DATA}/J_regressor_extra.npy'
 JOINT_REGRESSOR_H36M = f'{_DATA}/J_regressor_h36m.npy'
 SMPL_MEAN_PARAMS = f'{_DATA}/smpl_mean_params.npz'
@@ -108,7 +106,7 @@ class SMPL(_SMPL):
         
         
 
-def get_smpl_faces():
-    smpl = SMPL(SMPL_MODEL_DIR, batch_size=1, create_transl=False)
+def get_smpl_faces(smpl_model_dir):
+    smpl = SMPL(smpl_model_dir, batch_size=1, create_transl=False)
     return smpl.faces
 
