@@ -7,6 +7,8 @@ The original repo is [VPoser: Variational Human Pose Prior for Body Inverse Kine
 
 ## Usage
 
+### Vposer
+
 download vposer model weight
 
 ```bash
@@ -23,6 +25,29 @@ from human_body_prior.tools.model_loader import exprdir2model
 
 vposer, _ = exprdir2model("data/vposer_v02_05")
 ```
+
+### 3D SMPL visualizer
+
+Install Requirements
+
+    pip install pyvista==0.35.2
+    pip install pyvista==0.44.1
+    pip install vtk==9.2.5
+
+    PYOPENGL_PLATFORM=osmesa python debug_scripts/test_vis_3d.py
+
+
+test pyvista:
+
+    import pyvista as pv
+
+    pv.start_xvfb()
+    mesh = pv.Sphere()
+    p = pv.Plotter()
+    p.add_mesh(mesh)
+    mesh.plot()
+    
+    p.show()
 
 ### Download SMPL-X model
 
