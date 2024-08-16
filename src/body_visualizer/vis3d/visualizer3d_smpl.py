@@ -20,9 +20,9 @@ class SMPLActor():
         self.pl = pl
         self.verts = verts
         self.face = faces
-        self.mesh = pyvista.PolyData(verts, faces)
+        self.mesh = pyvista.PolyData(verts, faces) # face: (13776, 4)
         # core dumped here
-        import ipdb; ipdb.set_trace()
+        # import ipdb; ipdb.set_trace()
         self.actor = self.pl.add_mesh(self.mesh, color=color, pbr=True, metallic=0.0, roughness=0.3, diffuse=1)
         # self.actor = self.pl.add_mesh(self.mesh, color=color, ambient=0.2, diffuse=0.8, specular=0.8, specular_power=5, smooth_shading=True)
         self.set_visibility(visible)
@@ -32,9 +32,11 @@ class SMPLActor():
         self.mesh.compute_normals(inplace=True)
 
     def set_opacity(self, opacity):
+        # self.actor.GetProperty().SetOpacity(1)
         self.actor.GetProperty().SetOpacity(opacity)
 
     def set_visibility(self, flag):
+        # self.actor.SetVisibility(True)
         self.actor.SetVisibility(flag)
 
     def set_color(self, color):
@@ -175,7 +177,7 @@ class SMPLVisualizer(Visualizer3D):
                 trans = trans.squeeze(0)
 
             shape = smpl_seq['shape'].repeat((pose.shape[0], 1, 1))
-            betas=torch.zeros_like(shape.view(-1, 10))
+            betas=(shape.view(-1, 10))
             
             # print(pose[..., :3].view(-1, 3))
             orig_pose_shape = pose.shape
@@ -187,6 +189,7 @@ class SMPLVisualizer(Visualizer3D):
                 return_full_pose=True,
                 orig_joints=True
             )
+            # import ipdb; ipdb.set_trace()
 
             self.smpl_verts = self.smpl_motion.vertices.reshape(*orig_pose_shape[:-1], -1, 3)
             self.smpl_joints = self.smpl_motion.joints.reshape(*orig_pose_shape[:-1], -1, 3)
@@ -224,6 +227,23 @@ class SMPLVisualizer(Visualizer3D):
 
     def init_camera(self):
         super().init_camera()
+        
+    def set_global_camera(self):
+        # import ipdb; ipdb.set_trace()
+        
+        # root_pos = self.smpl_joints[0, self.fr, 0].cpu().numpy()
+        root_pos = self.smpl_joints[0, :, 0].mean(dim=-2).cpu().numpy()
+        
+        
+        roll = self.pl.camera.roll
+        view_vec = np.asarray(self.pl.camera.position) - np.asarray(self.pl.camera.focal_point)
+        new_focal = np.array([root_pos[0], root_pos[1], 0.8])
+        new_pos = new_focal + view_vec
+        self.pl.camera.up = (0, 0, 1)
+        self.pl.camera.focal_point = new_focal.tolist()
+        self.pl.camera.position = new_pos.tolist()
+        # self.pl.camera.roll = roll   # don't set roll
+        
 
     def init_scene(self, init_args):
         if init_args is None:
@@ -233,9 +253,14 @@ class SMPLVisualizer(Visualizer3D):
         self.update_smpl_seq(init_args.get('smpl_seq', None), init_args.get('mode', 'gt'))
         self.num_actors = init_args.get('num_actors', self.smpl_joints.shape[0])
         if self.show_smpl and self.smpl_verts is not None:
-            vertices = self.smpl_verts[0, 0].cpu().numpy()
+            # self.smpl_verts: T, 6890, 3
+            # import ipdb; ipdb.set_trace()
             # segmentation fault (core dumped)  
-            self.smpl_actors = [SMPLActor(self.pl, vertices, self.smpl_faces) for _ in range(self.num_actors)]
+            
+            vertices = self.smpl_verts[0, 0].cpu().numpy()
+            self.smpl_actors = [SMPLActor(self.pl, vertices, self.smpl_faces) for idx in range(self.num_actors)]
+            
+            # self.smpl_actors = [SMPLActor(self.pl, self.smpl_verts[0, idx].cpu().numpy(), self.smpl_faces) for idx in range(self.num_actors)]
         if self.show_skeleton:
             self.skeleton_actors = [SkeletonActor(self.pl, self.smpl_joint_parents) for _ in range(self.num_actors)]
         
@@ -251,6 +276,7 @@ class SMPLVisualizer(Visualizer3D):
         # self.pl.camera.roll = roll   # don't set roll
 
     def update_scene(self):
+        """Main rendering loop"""
         super().update_scene()
         visible = self.vis_mask[self.fr] == 1.0
         all_visible = np.all(self.vis_mask == 1.0)
@@ -262,7 +288,11 @@ class SMPLVisualizer(Visualizer3D):
                 full_opacity = 0.7
             else:
                 full_opacity = 1.0
+                
+            full_opacity = 1.0
+            
             opacity = full_opacity if visible else 0.5
+            # import ipdb; ipdb.set_trace()
             
             for i, actor in enumerate(self.smpl_actors):
                 if visible and i > 0 and not self.sample_visible_alltime:
@@ -271,6 +301,10 @@ class SMPLVisualizer(Visualizer3D):
                     actor.set_visibility(True)
                     actor.update_verts(self.smpl_verts[i, self.fr].cpu().numpy())
                 actor.set_opacity(opacity)
+                
+                # actor.set_visibility(True)
+                # actor.update_verts(self.smpl_verts[i, self.fr].cpu().numpy())
+                # actor.set_opacity(1)
 
         if self.show_skeleton:
             if all_visible:

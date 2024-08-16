@@ -40,7 +40,9 @@ Install Requirements
     # new version to compatible for pyvista changes
     pip install pyvista==0.44.1
 
-    pip install pyrender pyvista
+    pip install pyrender pyvista seaborn
+
+    sudo apt install libgl1-mesa-glx xvfb
 
 test pyvista:
 

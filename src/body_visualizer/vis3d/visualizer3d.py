@@ -10,16 +10,22 @@ import platform
 import tempfile
 import pyrender
 import cv2
+
+from tqdm import trange
+
+
 from .utils import images_to_video, make_checker_board_texture, nparray_to_vtk_matrix
 
 
 class Visualizer3D:
 
     def __init__(self, init_T=6, enable_shadow=False, anti_aliasing=True, use_floor=True,
-                 add_cube=False, distance=5, elevation=20, azimuth=0, verbose=True):
+                 add_cube=False, distance=5, elevation=20, azimuth=0, verbose=True, enable_cam_following=False):
         if platform.system() == 'Linux':
             print('Attention: Your OS may not support anti-aliasing, but you can try to turn in on in lib.utils.visualizer3d.__init__() to improve rendering quality.')
             anti_aliasing = False
+            
+        self.enable_cam_following = enable_cam_following
         self.enable_shadow = enable_shadow
         self.anti_aliasing = anti_aliasing
         self.use_floor = use_floor
@@ -87,7 +93,7 @@ class Visualizer3D:
             center = np.array([0, 0, -wlh[2] * 0.5])
             self.floor_mesh = pyvista.Cube(center, *wlh)
             # self.floor_mesh.active_texture_coordinates *= 2 / self.floor_mesh.active_texture_coordinates.max()
-            self.floor_mesh.t_coords *= 2 / self.floor_mesh.t_coords.max()
+            self.floor_mesh.active_t_coords *= 2 / self.floor_mesh.active_t_coords.max()
             tex = pyvista.numpy_to_texture(make_checker_board_texture('#81C6EB', '#D4F1F7'))
             self.pl.add_mesh(self.floor_mesh, texture=tex, ambient=0.2, diffuse=0.8, specular=0.8, specular_power=5, smooth_shading=True)
         else:
@@ -160,8 +166,16 @@ class Visualizer3D:
         self.pl.add_key_event('Left', prev_frame)
         self.pl.add_key_event('Right', next_frame)
 
+    def set_global_camera(self):
+        raise NotImplementedError
+    
+    
     def render(self, interactive):
-        self.update_camera(interactive)
+        if self.enable_cam_following:
+            self.update_camera(interactive)
+        else:
+            self.set_global_camera()
+            
         self.pl.update()
         
     def tframe_animation_loop(self):
@@ -215,6 +229,9 @@ class Visualizer3D:
         self.init_scene(init_args)
         self.update_scene()
         self.setup_key_callback()
+        
+        # self.paused = True
+        
         if show_axes:
             self.pl.show_axes()
         self.pl.show(interactive_update=True)
@@ -241,16 +258,19 @@ class Visualizer3D:
 
     def save_animation_as_video(self, video_path, init_args=None, window_size=(800, 800), enable_shadow=None, fps=30, crf=25, frame_dir=None, cleanup=True):
         self.interactive = False
-        # import ipdb; ipdb.set_trace()
+        
         if platform.system() == 'Linux':
             pyvista.start_xvfb()
             
-            # from pyvista.utilities import xvfb
-            # xvfb.start_xvfb()
-
+        self.pl = pyvista.Plotter(window_size=window_size, off_screen=True)
+        
+        
+        # self.pl = pyvista.Plotter(window_size=window_size, off_screen=False)
+        
+        
         if enable_shadow is not None:
             self.enable_shadow = enable_shadow
-        self.pl = pyvista.Plotter(window_size=window_size, off_screen=True)
+        
         # import ipdb; ipdb.set_trace()
         self.init_camera()
         self.init_scene(init_args)
@@ -262,9 +282,13 @@ class Visualizer3D:
                 shutil.rmtree(frame_dir)
             os.makedirs(frame_dir)
         os.makedirs(osp.dirname(video_path), exist_ok=True)
-        for fr in range(self.num_fr):
+        
+        for fr in trange(self.num_fr):
+            # print(f'Frame {fr+1}/{self.num_fr}')
             self.save_frame(fr, f'{frame_dir}/{fr:06d}.jpg')
+            
         images_to_video(frame_dir, video_path, fps=fps, crf=crf, verbose=self.verbose)
+        
         if cleanup:
             shutil.rmtree(frame_dir)
 

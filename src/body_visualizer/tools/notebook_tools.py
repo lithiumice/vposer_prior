@@ -25,7 +25,7 @@ import numpy as np
 
 def show_image(img_ndarray):
     '''
-    Visualize images resulted from calling vis_smpl_params in Jupyternotebook
+    Visualize images resulted from calling visualizer3d_smpl_params in Jupyternotebook
     :param img_ndarray: Nx400x400x3
     '''
     import matplotlib.pyplot as plt
