@@ -46,7 +46,8 @@ test pyvista:
 
     import pyvista as pv
 
-    pv.start_xvfb()
+    # pv.start_xvfb()
+
     mesh = pv.Sphere()
     p = pv.Plotter()
     p.add_mesh(mesh)
@@ -62,10 +63,10 @@ Test SMPL visualizer
 ### Download SMPL-X model
 
     mkdir data/smplx/
-    wget "https://huggingface.co/lithiumice/SMPLit/resolve/main/smpl_smplh_smplx_mano/SMPLX_NEUTRAL.npz" -O data/smplx/SMPLX_NEUTRAL.npz
+    wget "https://huggingface.co/lithiumice/models_hub/resolve/main/smpl_smplh_smplx_mano/SMPLX_NEUTRAL.npz" -O data/smplx/SMPLX_NEUTRAL.npz
 
     mkdir data/smpl/
-    wget "https://huggingface.co/lithiumice/SMPLit/resolve/main/smpl_smplh_smplx_mano/SMPL_NEUTRAL.pkl" -O data/smpl/SMPL_NEUTRAL.pkl
+    wget "https://huggingface.co/lithiumice/models_hub/resolve/main/smpl_smplh_smplx_mano/SMPL_NEUTRAL.pkl" -O data/smpl/SMPL_NEUTRAL.pkl
 
 ## Install
 
