@@ -9,7 +9,7 @@ import shutil
 import platform
 import tempfile
 import pyrender
-import cv2 as cv
+import cv2
 from .utils import images_to_video, make_checker_board_texture, nparray_to_vtk_matrix
 
 
@@ -86,8 +86,8 @@ class Visualizer3D:
             wlh = (20.0, 20.0, 0.05)
             center = np.array([0, 0, -wlh[2] * 0.5])
             self.floor_mesh = pyvista.Cube(center, *wlh)
-            self.floor_mesh.active_texture_coordinates *= 2 / self.floor_mesh.active_texture_coordinates.max()
-            # self.floor_mesh.t_coords *= 2 / self.floor_mesh.t_coords.max()
+            # self.floor_mesh.active_texture_coordinates *= 2 / self.floor_mesh.active_texture_coordinates.max()
+            self.floor_mesh.t_coords *= 2 / self.floor_mesh.t_coords.max()
             tex = pyvista.numpy_to_texture(make_checker_board_texture('#81C6EB', '#D4F1F7'))
             self.pl.add_mesh(self.floor_mesh, texture=tex, ambient=0.2, diffuse=0.8, specular=0.8, specular_power=5, smooth_shading=True)
         else:
@@ -231,10 +231,10 @@ class Visualizer3D:
             img = self.pl.screenshot(transparent_background=True, return_img=True)
             alpha = img[..., [3]] / 255.0
             alpha[alpha > 0.0] = 1.0
-            fg_img = cv.cvtColor(img[..., :3], cv.COLOR_RGB2BGR)
-            bg_img = cv.imread(self.background_img)
+            fg_img = cv2.cvtColor(img[..., :3], cv2.COLOR_RGB2BGR)
+            bg_img = cv2.imread(self.background_img)
             c_img = fg_img * alpha + bg_img * (1 - alpha)
-            cv.imwrite(img_path, c_img)
+            cv2.imwrite(img_path, c_img)
         else:
             self.pl.screenshot(img_path)
 

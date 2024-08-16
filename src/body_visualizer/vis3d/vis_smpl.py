@@ -38,7 +38,7 @@ class SMPLActor():
         self.actor.SetVisibility(flag)
 
     def set_color(self, color):
-        return
+        # return
         from pyvista.plotting.tools import parse_color
         rgb_color = parse_color(color)
         self.actor.GetProperty().SetColor(rgb_color)
@@ -108,7 +108,7 @@ class SkeletonActor():
             actor.SetVisibility(flag)
 
     def set_color(self, color):
-        return
+        # return
         from pyvista.plotting.tools import parse_color
         rgb_color = parse_color(color)
         for actor in self.joint_actors:
