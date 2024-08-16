@@ -12,19 +12,15 @@ if __name__ == "__main__":
     data = np.load(npz_path)
     
     # shape: num_persion, T, ...
-    
     common_op = lambda x: x[:150].unsqueeze(0)
 
     smpl_seq = {
-        # 'pose': common_op(torch.tensor(data['poses'])[:,3:3+24,:].reshape(-1,72)),
         'pose': common_op(torch.tensor(data['poses'])[:,:24,:].reshape(-1,72)),
-        # "trans": torch.zeros_like(common_op(torch.tensor(data["trans"]))),
         "trans": common_op(torch.tensor(data["trans"])),
         "shape": common_op(torch.tensor(data["betas"])),
     }
     
     init_args = {'smpl_seq': smpl_seq, 'mode': 'gt'}
-    
     
     save_video_path = "./debug/vis_3d/test2.mp4"
     visualizer.save_animation_as_video(save_video_path, init_args=init_args, window_size=(1500, 1500), cleanup=True)
