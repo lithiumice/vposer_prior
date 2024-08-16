@@ -1,3 +1,7 @@
+"""
+This script is borrowed from https://github.com/NVlabs/GLAMR/blob/main/motion_infiller/vis/vis_smpl.py
+"""
+
 import os, sys
 import pyvista
 import time
