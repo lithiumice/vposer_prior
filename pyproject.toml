@@ -24,7 +24,6 @@ pytorch-lightning = "*"
 PyYAML = "*"
 torch = "*"
 transforms3d = "*"
-pytorch3d = "*"
 omegaconf = "*"
 loguru = "*"
 
