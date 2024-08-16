@@ -98,6 +98,8 @@ Check you had install these pip package, if you do not mess up your environment:
 + torch
 + pytorch3d
 
+    conda install pytorch3d -c pytorch3d
+
 LICENSE: license from MPI, no free to modify and distribut,
 
 ## Issues

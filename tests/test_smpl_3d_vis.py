@@ -5,11 +5,11 @@ import torch
 
 if __name__ == "__main__":
     visualizer = SMPLVisualizer(generator_func=None, distance=7, device="cuda", 
-                                smpl_model_dir="/home/lithiumice/code/MotionCapture/smpl_body_models/smpl_pkl_SMPL_NEUTRAL_pkl",
+                                smpl_model_dir="data/smpl",
                                 sample_visible_alltime=True, verbose=False)
 
     # import ipdb; ipdb.set_trace()
-    npz_path = "/mnt/f/Public-Datasets/loco_dataset/bilibili_locomotion_up_id_396441315_tram_processed_difftraj_npzs/BV18i421e7oG_0029+track_4.npz"
+    npz_path = "data/demo_npzs/taijiquan_female_ID0_difTraj_raw.npz"
     data = np.load(npz_path)
 
     smpl_seq = {

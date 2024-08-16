@@ -134,4 +134,5 @@ dmypy.json
 third_party
 debug*
 # data/
-data/smpl/SMPL_NEUTRAL.pkl
+data/smpl/
+data/smplx/
