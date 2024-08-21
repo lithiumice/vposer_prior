@@ -30,7 +30,7 @@ class Processor:
         self.visualizer = SMPLVisualizer(generator_func=None, distance=7, device="cuda", enable_shadow=True, anti_aliasing=True,
                                     smpl_model_dir="data/smpl", sample_visible_alltime=True, verbose=True, enable_cam_following=False)
         
-    async def process_video(self, npz_path: str):
+    async def process_render_npz(self, npz_path: str):
         try:
             output_folder = self.data_params["output_folder"]
             render_video_path = str(Path(output_folder, Path(npz_path).stem + ".mp4"))
@@ -56,6 +56,10 @@ class Processor:
             init_args = {'smpl_seq': smpl_seq, 'mode': 'gt'}
             self.visualizer.save_animation_as_video(render_video_path, init_args=init_args, window_size=(1500, 1500), cleanup=True)
             print(f"[INFO] Save video to {render_video_path}")
+            
+            del init_args
+            del smpl_seq
+            del data
             
             
         except Exception as e:
@@ -101,7 +105,7 @@ def run(data_params, process_params, model_paths, model_params, scaling_params):
     pool = ActorPool(actors)
     
     for npz_path in npz_path_list:
-        pool.submit(lambda actor, npz_path: actor.process_video.remote(npz_path), npz_path)
+        pool.submit(lambda actor, npz_path: actor.process_render_npz.remote(npz_path), npz_path)
 
     files_processed = 0
     failures = 0

@@ -19,8 +19,8 @@ import torch
 
 
 
-@ray.remote(num_gpus=0.3)
-def process_imitation(npz_path, render_video_path):
+@ray.remote(num_gpus=0.1)
+def process_render_npz(npz_path, render_video_path):
     
     visualizer = SMPLVisualizer(generator_func=None, distance=7, device="cuda", enable_shadow=True, anti_aliasing=True,
                                 smpl_model_dir="data/smpl", sample_visible_alltime=True, verbose=True, enable_cam_following=False)
@@ -72,7 +72,7 @@ def run(data_params, process_params, model_paths, model_params, scaling_params):
             continue
         
         # on RTX 3060, process one npz take up < 4GB GPU memory
-        tasks.append(process_imitation.remote(npz_path, render_video_path))
+        tasks.append(process_render_npz.remote(npz_path, render_video_path))
 
     ray.get(tasks)
     ray.shutdown()
