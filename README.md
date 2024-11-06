@@ -5,13 +5,61 @@ The original repo is [VPoser: Variational Human Pose Prior for Body Inverse Kine
 - [] Add compatible to Vposer v1.0
 - [] Add AMASS repo
 
-## Environment
+## Installation
+
+### Download SMPL-X model
+
+    mkdir data/smplx/
+    wget "https://huggingface.co/lithiumice/models_hub/resolve/main/smpl_smplh_smplx_mano/SMPLX_NEUTRAL.npz" -O data/smplx/SMPLX_NEUTRAL.npz
+
+    mkdir data/smpl/
+    wget "https://huggingface.co/lithiumice/models_hub/resolve/main/smpl_smplh_smplx_mano/SMPL_NEUTRAL.pkl" -O data/smpl/SMPL_NEUTRAL.pkl
+
+### Prepare Environment
 
     conda env create -f _base_conda_env.yaml -n torch_base
 
+Check you had install these pip package, if you do not mess up your environment:
+
+```
+conda install pytorch3d -c pytorch3d
+```
+
+clone and install
+
+```
+git clone https://github.com/lithiumice/human_body_prior
+cd human_body_prior 
+pip install -e .
+pip show human_body_prior
+```
+
+install with poetry[Recommand]
+
+```
+pip install poetry
+poetry install
+```
+
+install from github using poetry
+
+```
+poetry add "git+https://github.com/lithiumice/human_body_prior"
+```
+
+install from github using pip
+
+```
+pip install "git+https://github.com/lithiumice/human_body_prior"
+pip install "git+https://github.com/mattloper/chumpy"
+```
+
+This will install in editable way.
+
+
 ## Usage
 
-### Vposer
+### Vposer Single Frame Body Prior
 
 download vposer model weight
 
@@ -59,52 +107,14 @@ test pyvista:
 
 Test SMPL visualizer
 
-    python debug_scripts/test_vis_3d.py
+    export PYOPENGL_PLATFORM=osmesa
+    python tests/test_smpl_3d_vis.py
 
-
-### Download SMPL-X model
-
-    mkdir data/smplx/
-    wget "https://huggingface.co/lithiumice/models_hub/resolve/main/smpl_smplh_smplx_mano/SMPLX_NEUTRAL.npz" -O data/smplx/SMPLX_NEUTRAL.npz
-
-    mkdir data/smpl/
-    wget "https://huggingface.co/lithiumice/models_hub/resolve/main/smpl_smplh_smplx_mano/SMPL_NEUTRAL.pkl" -O data/smpl/SMPL_NEUTRAL.pkl
-
-## Install
-
-clone and install
-
-    git clone https://github.com/lithiumice/human_body_prior
-    cd human_body_prior 
-    pip install -e .
-    pip show human_body_prior
-
-install with poetry[Recommand]
-
-    pip install poetry
-    poetry install
-
-install from github using poetry
-
-    poetry add "git+https://github.com/lithiumice/human_body_prior"
-    
-install from github using pip
-    
-    pip install "git+https://github.com/lithiumice/human_body_prior"
-    pip install "git+https://github.com/mattloper/chumpy"
-
-
-This will install in editable way.
-
-Check you had install these pip package, if you do not mess up your environment:
-+ torch
-+ pytorch3d
-
-    conda install pytorch3d -c pytorch3d
-
-LICENSE: license from MPI, no free to modify and distribut,
+<!-- LICENSE: license from MPI, no free to modify and distribut, -->
 
 ## Issues
 
-- ImportError: cannot import name 'OSMesaCreateContextAttribs' from 'OpenGL.osmesa
-    - pip install --upgrade pyopengl==3.1.4
+> ImportError: cannot import name 'OSMesaCreateContextAttribs' from 'OpenGL.osmesa
+
+    > Solution  
+        pip install --upgrade pyopengl==3.1.4
