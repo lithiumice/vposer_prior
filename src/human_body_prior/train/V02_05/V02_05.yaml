@@ -1,15 +1,15 @@
 ---
 body_model:
   gender: neutral
-  bm_fname: ../../../../support_data/dowloads/models/smplx/neutral/model.npz
+  bm_fname: ../../../../data/support_data/dowloads/models/smplx/neutral/model.npz
 
 general:
   verbosity: 0
   expr_id:
   dataset_id: V02_03 #SMPLx neutral
   rnd_seed: 100
-  work_basedir: ../../../../support_data/training/training_experiments
-  dataset_basedir: ../../../../support_data/training/data
+  work_basedir: ../../../../data/support_data/training/training_experiments
+  dataset_basedir: ../../../../data/support_data/training/data
 
 logging:
   expr_msg:
@@ -50,7 +50,7 @@ train_parms:
 
 data_parms:
   num_workers: 5 # Used for dataloaders
-  amass_dir: support_data/dowloads/amass/smplx_neutral
+  amass_dir: data/support_data/dowloads/amass/smplx_neutral
   num_timeseq_frames: 1
   amass_splits:
     vald:

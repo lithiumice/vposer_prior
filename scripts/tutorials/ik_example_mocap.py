@@ -68,7 +68,7 @@ class SourceKeyPoints(nn.Module):
 
         return {'source_kpts':virtual_markers, 'body': new_body}
 
-support_dir = '../support_data/dowloads'
+support_dir = '../data/support_data/dowloads'
 vposer_expr_dir = osp.join(support_dir,'vposer_v2_05') #'TRAINED_MODEL_DIRECTORY'  in this directory the trained model along with the model code exist
 bm_fname =  osp.join(support_dir,'models/smplx/neutral/model.npz')#'PATH_TO_SMPLX_model.npz'  obtain from https://smpl-x.is.tue.mpg.de/downloads
 sample_amass_fname = osp.join(support_dir, 'amass_sample.npz')# a sample npz file from AMASS

@@ -29,7 +29,7 @@ setup(name='human_body_prior',
       packages=find_packages('src'),
       package_dir={'': 'src'},
       include_package_data=True,
-      data_files=[('human_body_prior/support_data', glob('support_data/*.*'))],
+      data_files=[('human_body_prior/data/support_data', glob('data/support_data/*.*'))],
 
 
       author='Nima Ghorbani',
