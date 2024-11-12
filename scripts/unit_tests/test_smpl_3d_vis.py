@@ -22,7 +22,8 @@ if __name__ == "__main__":
     
     init_args = {'smpl_seq': smpl_seq, 'mode': 'gt'}
     
-    save_video_path = "./debug/vis_3d/test2.mp4"
+    
+    save_video_path = "./debug_output/taijiquan_female_ID0_difTraj_raw.mp4"
     visualizer.save_animation_as_video(save_video_path, init_args=init_args, window_size=(1500, 1500), cleanup=True)
     print(f"[INFO] Save video to {save_video_path}")
     

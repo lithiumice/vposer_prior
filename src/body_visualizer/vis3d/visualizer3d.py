@@ -274,7 +274,12 @@ class Visualizer3D:
         # import ipdb; ipdb.set_trace()
         self.init_camera()
         self.init_scene(init_args)
+        
+        # segmentation fault (core dumped)
         self.pl.show(interactive_update=True)
+        # self.pl.show()
+        
+        
         if frame_dir is None:
             frame_dir = tempfile.mkdtemp(prefix="visualizer3d-")
         else:

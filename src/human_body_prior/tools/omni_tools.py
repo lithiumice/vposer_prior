@@ -62,7 +62,7 @@ def get_support_data_dir(current_fname=__file__):
     support_data_dir = "/".join(
         support_data_dir_split[: support_data_dir_split.index("src")]
     )
-    support_data_dir = osp.join(support_data_dir, "support_data")
+    support_data_dir = osp.join(support_data_dir, "data/support_data")
     assert osp.exists(support_data_dir)
     return support_data_dir
 
