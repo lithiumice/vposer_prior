@@ -1,0 +1,20 @@
+paths:
+  vposer_ckpt: "data/vposer_v02_05"
+  dataset1_path: "data/datasets/1_20240301_LANFAN1_BVH2SMPL"
+  dataset2_path: "data/datasets/1_20240301_100STYLE_BVH2SMPL"
+  output_dir: "debug_output/lafan1_loco_pca_vis"
+
+sampling:
+  sample_size: 4
+  file_pattern: "walk*.npz"
+
+visualization:
+  point_size: 10
+  alpha: 0.5
+  overlap_threshold: 0.1
+  dimensions: [0, 1]
+
+device: "cuda"
+
+pca:
+  n_components: 2
