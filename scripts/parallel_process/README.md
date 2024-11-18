@@ -1,6 +1,4 @@
 
-# Render SMPL motion npz batch with raY
+# Render SMPL motion npz batch with ray
 
-~~python scripts/ray_cluster/ray_cluster_with_state.py --config scripts/ray_cluster/configs/local_rtx3060_infer.yaml~~
-
-    python scripts/ray_cluster/ray_cluster_inference.py --config scripts/ray_cluster/configs/local_rtx3060_infer.yaml
+    python scripts/parallel_process/ray_main.py --config scripts/parallel_process/configs/local_rtx3060/20240821_loco_vis.yaml
