@@ -193,7 +193,6 @@ class SMPLVisualizer(Visualizer3D):
                 return_full_pose=True,
                 orig_joints=True
             )
-            # import ipdb; ipdb.set_trace()
 
             self.smpl_verts = self.smpl_motion.vertices.reshape(*orig_pose_shape[:-1], -1, 3)
             self.smpl_joints = self.smpl_motion.joints.reshape(*orig_pose_shape[:-1], -1, 3)
@@ -285,6 +284,8 @@ class SMPLVisualizer(Visualizer3D):
         visible = self.vis_mask[self.fr] == 1.0
         all_visible = np.all(self.vis_mask == 1.0)
 
+        # import ipdb; ipdb.set_trace()
+        
         if self.show_smpl and self.smpl_verts is not None:
             if all_visible:
                 full_opacity = 0.5 
@@ -296,7 +297,6 @@ class SMPLVisualizer(Visualizer3D):
             full_opacity = 1.0
             
             opacity = full_opacity if visible else 0.5
-            # import ipdb; ipdb.set_trace()
             
             for i, actor in enumerate(self.smpl_actors):
                 if visible and i > 0 and not self.sample_visible_alltime:
