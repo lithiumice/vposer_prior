@@ -122,12 +122,14 @@ def run(data_params, process_params, model_paths, model_params, scaling_params):
     ray.shutdown()
     
     
+device = "cuda"
+# device = "cpu"
 
 
-@ray.remote(num_gpus=0.1)
+@ray.remote(num_cpus=1)
 def process_render_npz(npz_path, render_video_path):
     
-    visualizer = SMPLVisualizer(generator_func=None, distance=7, device="cuda", enable_shadow=True, anti_aliasing=True,
+    visualizer = SMPLVisualizer(generator_func=None, distance=7, device=device, enable_shadow=True, anti_aliasing=True,
                                 smpl_model_dir="data/smpl", sample_visible_alltime=True, verbose=True, enable_cam_following=False)
     
     data = np.load(npz_path)
@@ -177,8 +179,11 @@ def run_simple(data_params, process_params, model_paths, model_params, scaling_p
             # print(f"[DEBUG] {record_npz_path} exist, skip")
             continue
         
-        # on RTX 3060, process one npz take up < 4GB GPU memory
-        tasks.append(process_render_npz.remote(npz_path, render_video_path))
+        if device != "cpu":
+            # on RTX 3060, process one npz take up < 4GB GPU memory
+            tasks.append(process_render_npz.options(num_gpus=0.1).remote(npz_path, render_video_path))
+        else:
+            tasks.append(process_render_npz.remote(npz_path, render_video_path))
 
     ray.get(tasks)
     ray.shutdown()
