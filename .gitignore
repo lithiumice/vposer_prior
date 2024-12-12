@@ -136,3 +136,4 @@ debug*
 # data/
 data/smpl/
 data/smplx/
+output*

@@ -1,0 +1,16 @@
+data:
+  glob_pattern: "/mnt/f/2_Datasets/1_LOCO/1_bilibili_dance_whole/1_him_imitated//*.npz"
+  output_folder: "/mnt/f/2_Datasets/1_LOCO/1_bilibili_dance_whole/2_pyvista_render"
+
+process_params:
+  # debug: true
+  debug: false
+  use_ray_cluster: false
+
+model_paths:
+
+model_params:
+
+scaling_params:
+  num_gpu_per_processor: 0.1
+  CUDA_VISIBLE_DEVICES: 

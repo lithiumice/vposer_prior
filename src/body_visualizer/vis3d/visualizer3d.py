@@ -242,6 +242,7 @@ class Visualizer3D:
 
     def save_frame(self, fr, img_path):
         self.fr = fr
+        import ipdb; ipdb.set_trace()
         self.update_scene()
         self.render(interactive=False)
         if self.background_img is not None:
@@ -263,10 +264,7 @@ class Visualizer3D:
             pyvista.start_xvfb()
             
         self.pl = pyvista.Plotter(window_size=window_size, off_screen=True)
-        
-        
         # self.pl = pyvista.Plotter(window_size=window_size, off_screen=False)
-        
         
         if enable_shadow is not None:
             self.enable_shadow = enable_shadow
