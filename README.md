@@ -41,8 +41,8 @@ Choose one of the following installation methods:
 
 #### Option 1: Development Installation
 ```bash
-git clone https://github.com/lithiumice/human_body_prior
-cd human_body_prior 
+git clone https://github.com/lithiumice/vposer_prior
+cd vposer_prior 
 pip install -e .
 ```
 
@@ -55,12 +55,12 @@ poetry install
 #### Option 3: Direct Installation
 From GitHub using poetry:
 ```bash
-poetry add "git+https://github.com/lithiumice/human_body_prior"
+poetry add "git+https://github.com/lithiumice/vposer_prior"
 ```
 
 Or using pip:
 ```bash
-pip install "git+https://github.com/lithiumice/human_body_prior"
+pip install "git+https://github.com/lithiumice/vposer_prior"
 pip install "git+https://github.com/mattloper/chumpy"
 ```
 
