@@ -113,14 +113,3 @@ p.show()
 export PYOPENGL_PLATFORM=osmesa
 python tests/test_smpl_3d_vis.py
 ```
-
-## Troubleshooting
-
-### Known Issues
-
-**Issue**: ImportError: cannot import name 'OSMesaCreateContextAttribs' from 'OpenGL.osmesa'
-
-**Solution**:
-```bash
-pip install --upgrade pyopengl==3.1.4
-```        

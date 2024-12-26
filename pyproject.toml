@@ -1,6 +1,6 @@
 [tool.poetry]
-name = "human_body_prior"
 version = "2.2.2.0"
+name = "human_body_prior"
 description = "Variational human pose prior for human pose synthesis and estimation."
 authors = ["Nima Ghorbani <nghorbani@tue.mpg.de>"]
 maintainers = ["Nima Ghorbani <nghorbani@tue.mpg.de>"]
@@ -20,7 +20,6 @@ huggingface_hub = "*"
 tqdm = "*"
 numpy = "*"
 dotmap = "*"
-pytorch-lightning = "*"
 PyYAML = "*"
 torch = "*"
 transforms3d = "*"
