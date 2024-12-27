@@ -72,6 +72,7 @@ pip install "git+https://github.com/mattloper/chumpy"
 ```bash
 # Note: This repository only supports VPoser v2
 git clone https://huggingface.co/lithiumice/vposer_v02_05 data/vposer_v02_05
+git clone git@hf.co:lithiumice/vposer_v02_05 data/vposer_v02_05
 ```
 
 2. Python implementation:

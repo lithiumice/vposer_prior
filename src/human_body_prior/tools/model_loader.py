@@ -75,9 +75,11 @@ def load_model(expr_dir, model_code=None,
 
     if comp_device=='cpu' or not torch.cuda.is_available():
         logger.info('No GPU detected. Loading on CPU!')
-        state_dict = torch.load(trained_weights_fname, map_location=torch.device('cpu'), weights_only=True)['state_dict']
+        state_dict = torch.load(trained_weights_fname, map_location=torch.device('cpu'), )['state_dict']
+        # state_dict = torch.load(trained_weights_fname, map_location=torch.device('cpu'), weights_only=True)['state_dict']
     else:
-        state_dict = torch.load(trained_weights_fname, weights_only=True)['state_dict']
+        state_dict = torch.load(trained_weights_fname, )['state_dict']
+        # state_dict = torch.load(trained_weights_fname, weights_only=True)['state_dict']
     if remove_words_in_model_weights is not None:
         words = '{}'.format(remove_words_in_model_weights)
         state_dict = {k.replace(words, '') if k.startswith(words) else k: v for k, v in state_dict.items()}
