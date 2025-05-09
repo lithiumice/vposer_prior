@@ -4,14 +4,14 @@ and change the settings as you desire.
 First you would need to download the 
 [AMASS](https://amass.is.tue.mpg.de/) dataset, then following the [data preparation tutorial](../data/README.md)
 prepare the data for training. 
-Following is a code snippet for training that can be found in the [example training experiment](https://github.com/nghorbani/human_body_prior/blob/master/src/human_body_prior/train/V02_05/V02_05.py):
+Following is a code snippet for training that can be found in the [example training experiment](https://github.com/nghorbani/human_body_prior_v2/blob/master/src/human_body_prior_v2/train/V02_05/V02_05.py):
 
 ```python
 import glob
 import os.path as osp
 
-from human_body_prior.tools.configurations import load_config
-from human_body_prior.train.vposer_trainer import train_vposer_once
+from human_body_prior_v2.tools.configurations import load_config
+from human_body_prior_v2.train.vposer_trainer import train_vposer_once
 
 def main():
     expr_id = 'V02_05'

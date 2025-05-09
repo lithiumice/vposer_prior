@@ -27,11 +27,11 @@ import torch
 import torch.nn as nn
 
 # from smplx.lbs import lbs
-from human_body_prior.body_model.lbs import lbs
+from human_body_prior_v2.body_model.lbs import lbs
 
 # import trimesh # dont use this package for loading meshes since it messes up the order of vertices
 from psbody.mesh import Mesh
-from human_body_prior.body_model.lbs import batch_rodrigues
+from human_body_prior_v2.body_model.lbs import batch_rodrigues
 
 
 class RigidObjectModel(nn.Module):

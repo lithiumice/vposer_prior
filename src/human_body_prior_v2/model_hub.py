@@ -3,8 +3,8 @@ import os
 import os.path as osp
 
 #Loading VPoser Body Pose Prior
-from human_body_prior.tools.model_loader import load_model
-from human_body_prior.models.vposer_model import VPoser
+from human_body_prior_v2.tools.model_loader import load_model
+from human_body_prior_v2.models.vposer_model import VPoser
 
 def get_vposer_model(device='cuda', vposer_ckpt=None):
     # vposer_ckpt = osp.expandvars(vposer_ckpt)

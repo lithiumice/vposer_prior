@@ -181,8 +181,8 @@ class MeshViewer(object):
     #     self.scene.add(grid_mesh, 'grid-floor')
         
 if __name__ == '__main__':
-    from human_body_prior.tools.omni_tools import copy2cpu as c2c
-    from human_body_prior.body_model.body_model import BodyModel
+    from human_body_prior_v2.tools.omni_tools import copy2cpu as c2c
+    from human_body_prior_v2.body_model.body_model import BodyModel
     from supercap.marker_layout_detection.tools import marker_layout_as_points, equal_aspect_ratio, visualize3DData
 
     bodymodel_fname = '/ps/project/common/moshpp/smplx/unlocked_head/neutral/model.npz'

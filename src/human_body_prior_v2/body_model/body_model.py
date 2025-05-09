@@ -27,7 +27,7 @@ import torch
 import torch.nn as nn
 
 # from smplx.lbs import lbs
-from human_body_prior.body_model.lbs import lbs
+from human_body_prior_v2.body_model.lbs import lbs
 import sys
 
 
@@ -280,7 +280,7 @@ class BodyModel(nn.Module):
             self.register_buffer(name, value)
 
     def r(self):
-        from human_body_prior.tools.omni_tools import copy2cpu as c2c
+        from human_body_prior_v2.tools.omni_tools import copy2cpu as c2c
 
         return c2c(self.forward().v)
 

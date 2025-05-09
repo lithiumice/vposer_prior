@@ -23,18 +23,18 @@
 
 import os
 import numpy as np
-from human_body_prior.tools.omni_tools import makepath, log2file
-from human_body_prior.tools.omni_tools import copy2cpu as c2c
+from human_body_prior_v2.tools.omni_tools import makepath, log2file
+from human_body_prior_v2.tools.omni_tools import copy2cpu as c2c
 
 import shutil, sys
 from torch.utils.data import Dataset
 import glob
 from datetime import datetime
 import torch
-from human_body_prior.tools.rotation_tools import noisy_zrot
+from human_body_prior_v2.tools.rotation_tools import noisy_zrot
 import os.path as osp
 import numpy as np
-from human_body_prior.tools.omni_tools import logger_sequencer
+from human_body_prior_v2.tools.omni_tools import logger_sequencer
 import pickle
 from configer import Configer
 from tqdm import tqdm

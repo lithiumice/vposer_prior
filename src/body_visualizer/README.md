@@ -13,7 +13,7 @@ Set of tools to visualize and render SMPL family body parameters.
 **Requirements**
 - Python 3.7
 - [PyTorch 1.7.1](https://pytorch.org/get-started)
-- [Human Body Prior](https://github.com/nghorbani/human_body_prior)
+- [Human Body Prior](https://github.com/nghorbani/human_body_prior_v2)
 - [Pyrender](https://pyrender.readthedocs.io/en/latest/install/index.html#osmesa) for visualizations
 
 Clone this repo and run the following from the root folder:
@@ -23,7 +23,7 @@ python setup.py develop
 ```
 
 ## Usage
-For sample code refer to [VPoser repo](https://github.com/nghorbani/human_body_prior)
+For sample code refer to [VPoser repo](https://github.com/nghorbani/human_body_prior_v2)
 
 ## License
 Software Copyright License for **non-commercial scientific research purposes**.

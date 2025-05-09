@@ -151,7 +151,7 @@ def render_smpl_params(bm, body_parms, rot_body=None, imw=800, imh = 800,
         y larger, smpl model goes down
     '''
 
-    from human_body_prior.tools.omni_tools import copy2cpu as c2c
+    from human_body_prior_v2.tools.omni_tools import copy2cpu as c2c
     from body_visualizer.mesh.mesh_viewer import MeshViewer
     from body_visualizer.tools.mesh_tools import rotateXYZ
 

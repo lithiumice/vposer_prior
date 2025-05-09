@@ -6,7 +6,7 @@ from body_visualizer.tools.vis_tools import render_smpl_params
 from body_visualizer.tools.vis_tools import imagearray2file
 from body_visualizer.tools.vis_tools import show_image
 #Loading SMPLx Body Model
-from human_body_prior.body_model.body_model import BodyModel
+from human_body_prior_v2.body_model.body_model import BodyModel
 bm = BodyModel(bm_fname="/data/motion/body_models/smplx/SMPLX_NEUTRAL.npz").to('cuda')
 
 from misc_utils import *

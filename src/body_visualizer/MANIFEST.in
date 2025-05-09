@@ -1,2 +1,2 @@
 include data/support_data/*.*
-include src/human_body_prior/body_model/parts_segm/*/*.*
+include src/human_body_prior_v2/body_model/parts_segm/*/*.*

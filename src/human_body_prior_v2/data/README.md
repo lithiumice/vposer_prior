@@ -34,8 +34,8 @@ Below is a full python script example to prepare a VPoser training data:
 
 ```python
 import os
-from human_body_prior.tools.omni_tools import makepath, log2file
-from human_body_prior.data.prepare_data import prepare_vposer_datasets
+from human_body_prior_v2.tools.omni_tools import makepath, log2file
+from human_body_prior_v2.data.prepare_data import prepare_vposer_datasets
 
 expr_code = 'SOME_UNIQUE_ID'
 

@@ -24,8 +24,8 @@
 import glob
 import os.path as osp
 
-from human_body_prior.tools.configurations import load_config
-from human_body_prior.train.vposer_trainer import train_vposer_once
+from human_body_prior_v2.tools.configurations import load_config
+from human_body_prior_v2.train.vposer_trainer import train_vposer_once
 
 
 def main():

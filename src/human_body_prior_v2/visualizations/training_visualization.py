@@ -86,8 +86,8 @@ def vposer_trainer_renderer(bm, num_bodies_to_display=5):
     import torch
 
     from body_visualizer.tools.vis_tools import imagearray2file, colors
-    from human_body_prior.tools.omni_tools import copy2cpu as c2c
-    from human_body_prior.tools.omni_tools import makepath
+    from human_body_prior_v2.tools.omni_tools import copy2cpu as c2c
+    from human_body_prior_v2.tools.omni_tools import makepath
     from trimesh import Trimesh as Mesh
     from trimesh.util import concatenate as mesh_cat
 
