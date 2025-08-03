@@ -61,10 +61,10 @@ reconstructed_poses = vposer.decode(latent_codes)
 mkdir -p data/smplx/ data/smpl/
 
 # Download SMPL-X neutral model
-wget "https://huggingface.co/lithiumice/models_hub/resolve/main/smpl_smplh_smplx_mano/SMPLX_NEUTRAL.npz" -O data/smplx/SMPLX_NEUTRAL.npz
+wget "https://huggingface.co/lithiumice/models_hub/resolve/main/4_SMPLhub/SMPLX/X_npz/SMPLX_NEUTRAL.npz" -O data/smplx/SMPLX_NEUTRAL.npz
 
 # Download SMPL neutral model  
-wget "https://huggingface.co/lithiumice/models_hub/resolve/main/smpl_smplh_smplx_mano/SMPL_NEUTRAL.pkl" -O data/smpl/SMPL_NEUTRAL.pkl
+wget "https://huggingface.co/lithiumice/models_hub/resolve/main/4_SMPLhub/SMPL/X_pkl/SMPL_NEUTRAL.pkl" -O data/smpl/SMPL_NEUTRAL.pkl
 ```
 
 ### Step 2: Environment Setup

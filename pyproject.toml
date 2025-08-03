@@ -1,0 +1,27 @@
+[project]
+name = "vposer-prior"
+version = "2.2.2.0"
+description = "Variational human pose prior for human pose synthesis and estimation."
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "huggingface_hub",
+    "tqdm",
+    "numpy",
+    "dotmap",
+    "PyYAML",
+    "torch",
+    "transforms3d",
+    "omegaconf",
+    "loguru",
+    "smplx>=0.1.28",
+    "matplotlib>=3.10.5",
+    "pytorch3d",
+    "ikpy>=3.4.2",
+    "einops>=0.8.1",
+    "ipython>=8.37.0",
+    "ipdb>=0.13.13",
+]
+
+[tool.uv.sources]
+pytorch3d = { url = "https://dl.fbaipublicfiles.com/pytorch3d/packaging/wheels/py310_cu121_pyt230/pytorch3d-0.7.6-cp310-cp310-linux_x86_64.whl" }
