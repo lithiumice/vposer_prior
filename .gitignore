@@ -139,3 +139,4 @@ data/smplx/
 output*
 uv.lock
 *.npz
+*.gif

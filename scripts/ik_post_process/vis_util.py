@@ -20,6 +20,7 @@ def visualize_skeleton_animation(skeleton, skeleton_connections=None, save_anima
         save_frames: whether to save individual frames as images
         contacts: dictionary with ground contact information
     """
+    skeleton = skeleton[:, :22]
     T, J, _ = skeleton.shape
     
     from const import SMPLX_skeleton_connections
