@@ -102,21 +102,21 @@ def visualize_skeleton_animation(skeleton, skeleton_connections=None, save_anima
     
     # Save animation as GIF
     if save_animation:
-        filename = f'skeleton_animation{filename_suffix}.gif'
+        filename = f'{filename_suffix}.gif'
         print(f"Saving animation as {filename}...")
         writer = PillowWriter(fps=20)
         anim.save(filename, writer=writer)
         print("Animation saved!")
     
-    # Save individual frames
-    if save_frames:
-        frame_dir = f'skeleton_frames{filename_suffix}'
-        print("Saving individual frames...")
-        os.makedirs(frame_dir, exist_ok=True)
-        for i in range(0, min(T, 50), 5):  # Save every 5th frame, max 10 frames
-            animate(i)
-            plt.savefig(f'{frame_dir}/frame_{i:03d}.png', dpi=100, bbox_inches='tight')
-        print(f"Frames saved to {frame_dir}/ directory")
+    # # Save individual frames
+    # if save_frames:
+    #     frame_dir = f'skeleton_frames{filename_suffix}'
+    #     print("Saving individual frames...")
+    #     os.makedirs(frame_dir, exist_ok=True)
+    #     for i in range(0, min(T, 50), 5):  # Save every 5th frame, max 10 frames
+    #         animate(i)
+    #         plt.savefig(f'{frame_dir}/frame_{i:03d}.png', dpi=100, bbox_inches='tight')
+    #     print(f"Frames saved to {frame_dir}/ directory")
     
     plt.close()
     

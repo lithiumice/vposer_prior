@@ -1,17 +1,26 @@
 import numpy as np
 import torch
 import smplx
+import sys
+import matrix
+from ccd_ik import CCD_IK
+from pytorch3d.transforms import *
+from smplx_lite import SmplxLiteV437Coco17
 from const import SMPLX_JOINT_NAMES
+from vis_util import visualize_skeleton_animation
 
 
-def load_motion_and_get_skeleton():
+
+def load_motion():
     # Load motion data
     motion_data = np.load('data/demo_npzs/taijiquan_female_ID0_difTraj_raw.npz')
-    
     print("Motion data keys and shapes:")
     for key in motion_data.files:
         print(f"  {key}: {motion_data[key].shape}")
-    
+    return motion_data
+
+
+def get_skeleton(motion_data):
     # Extract motion parameters
     poses = motion_data['poses']  # (T, 55, 3)
     betas = motion_data['betas']  # (10,)
@@ -71,10 +80,9 @@ def load_motion_and_get_skeleton():
     print(f"Number of joints: {skeleton.shape[1]}")
     print(f"Skeleton data type: {skeleton.dtype}")
 
-    # post_w_j3d = torch.from_numpy(skeleton)[:, :22, :]
-    # local_mat = axis_angle_to_matrix(poses_tensor)[:, :22]
+    return skeleton
 
-    return skeleton, motion_data
+
 
 def detect_ground_contacts(skeleton, height_threshold=0.05, velocity_threshold=0.1):
     """
@@ -129,16 +137,6 @@ def detect_ground_contacts(skeleton, height_threshold=0.05, velocity_threshold=0
 
 
 
-import matrix
-from ccd_ik import CCD_IK
-from pytorch3d.transforms import *
-from smplx_lite import SmplxLiteV437Coco17
-smplx_model = SmplxLiteV437Coco17()
-parents = smplx_model.parents[:22]
-parents_tensor = torch.tensor(parents)
-parents = parents.tolist()
-
-
 
 def fk_v2(body_pose, betas, global_orient=None, transl=None):
     """
@@ -169,13 +167,7 @@ def fk_v2(body_pose, betas, global_orient=None, transl=None):
     
     
     
-if __name__ == "__main__":
-    skeleton, motion_data = load_motion_and_get_skeleton()
-    
-    # Detect ground contacts
-    print("\nDetecting ground contacts...")
-    contacts = detect_ground_contacts(skeleton, height_threshold=0.1, velocity_threshold=0.2)
-    
+def print_contact(contacts):
     # Print contact statistics
     print("\nGround contact statistics:")
     for joint_name, contact_info in contacts.items():
@@ -184,24 +176,64 @@ if __name__ == "__main__":
         print(f"  {joint_name}: {contact_frames}/{len(skeleton)} frames ({contact_percentage:.1f}%)")
     
         
-    ############## IK
-    import ipdb; ipdb.set_trace()
-    body_pose = motion_data['poses'][:, 3:]  # Exclude global orientation
-    betas = motion_data['betas']  # (10,)
-    global_orient= motion_data['poses'][:, :3]  # Global orientation
-    transl = motion_data['trans']  # Translation
+        
+if __name__ == "__main__":
+    smplx_model = SmplxLiteV437Coco17()
+    parents = smplx_model.parents[:22]
+    parents_tensor = torch.tensor(parents)
+    parents = parents.tolist()
+
+    height_threshold=0.1
+    velocity_threshold=0.3
+    id = f"h{height_threshold}_v{velocity_threshold}"
+
+    motion_data = load_motion()
+    skeleton = get_skeleton(motion_data)
+    contacts = detect_ground_contacts(skeleton, height_threshold=height_threshold, velocity_threshold=velocity_threshold)
+    print_contact(contacts)
+    if 1:
+        visualize_skeleton_animation(skeleton, filename_suffix=f"{id}-original", contacts=contacts)
     
-    static_conf = contacts  # (B, L, J)
+    
+    ############## IK
+    # import ipdb; ipdb.set_trace()
+    from einops import repeat, rearrange
+    body_pose = motion_data['poses'][:, 1:22, :] # Exclude global orientation
+    body_pose = rearrange(body_pose, 't j c -> 1 t (j c)')  # (T, 63)
+    
+    betas = motion_data['betas']  # (10,)
+    betas = repeat(betas, 'b -> 1 l b', l=body_pose.shape[1])  # Repeat for each frame
+    
+    global_orient= motion_data['poses'][:, 0, :]  # Global orientation
+    global_orient = rearrange(global_orient, 't c -> 1 t c')  # (T, 3)
+    
+    transl = motion_data['trans']  # Translation
+    transl = rearrange(transl, 't c -> 1 t c')  # (T, 3)
+    
+    static_conf = np.stack([v["is_contact"] for k, v in contacts.items()]) 
+    static_conf = rearrange(static_conf, "j t -> 1 t j") # (B, L, J)
+    
+    body_pose = torch.from_numpy(body_pose).float()  # (1, T, 63)
+    betas = torch.from_numpy(betas).float()  # (1, T, 10)
+    global_orient = torch.from_numpy(global_orient).float()  # (1, T, 3)
+    transl = torch.from_numpy(transl).float()  # (1, T, 3)
+    static_conf = torch.from_numpy(static_conf).float()  # (1, T, J)
+    
     post_w_j3d, local_mat, post_w_mat = fk_v2(body_pose, betas, global_orient, transl)
 
     # sebas rollout merge
-    joint_ids = [7, 10, 8, 11, 20, 21]  # [L_Ankle, L_foot, R_Ankle, R_foot, L_wrist, R_wrist]
+    joint_ids = [7, 10, 8, 11]  # [L_Ankle, L_foot, R_Ankle, R_foot]
+    # joint_ids = [7, 10, 8, 11, 20, 21]  # [L_Ankle, L_foot, R_Ankle, R_foot, L_wrist, R_wrist]
     post_target_j3d = post_w_j3d.clone()
     for i in range(1, post_w_j3d.size(1)):
         prev = post_target_j3d[:, i - 1, joint_ids]
         this = post_w_j3d[:, i, joint_ids]
         c_prev = static_conf[:, i - 1, :, None]
         post_target_j3d[:, i, joint_ids] = prev * c_prev + this * (1 - c_prev)
+        
+    visualize_skeleton_animation(post_target_j3d[0], filename_suffix=f"{id}-post_target_j3d")
+    if False:
+        sys.exit(0)
 
     # ik
     global_rot = matrix.get_rotation(post_w_mat)
@@ -234,6 +266,15 @@ if __name__ == "__main__":
     local_mat = ik(local_mat, post_target_j3d[:, :, [21]], global_rot[:, :, [21]], [4], right_hand_chain)
 
     body_pose = matrix_to_axis_angle(matrix.get_rotation(local_mat[:, :, 1:]))  # (B, L, J-1, 3, 3)
-    body_pose = body_pose.flatten(2)  # (B, L, (J-1)*3)
+    # body_pose = body_pose.flatten(2)  # (B, L, (J-1)*3)
 
+    # import ipdb; ipdb.set_trace()
+    motion_data = dict(motion_data)
+    motion_data["poses"] = torch.cat([
+        global_orient[0].unsqueeze(1),  # Add global orientation back
+        body_pose[0]
+    ], dim=1).cpu().numpy()  # (T, 55, 3)
+    skeleton = get_skeleton(motion_data)
+    visualize_skeleton_animation(skeleton, filename_suffix=f"{id}-ik-corrected")
+    
     
